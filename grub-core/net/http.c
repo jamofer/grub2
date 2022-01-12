@@ -130,7 +130,7 @@ parse_line (grub_file_t file, http_data_t data, char *ptr, grub_size_t len)
       data->first_line_recv = 1;
       return GRUB_ERR_NONE;
     }
-  if (grub_memcmp (ptr, "Content-Length: ", sizeof ("Content-Length: ") - 1)
+  if (grub_strncasecmp (ptr, "Content-Length: ", grub_strlen ("Content-Length: ") )
       == 0 && !data->size_recv)
     {
       ptr += sizeof ("Content-Length: ") - 1;
@@ -138,8 +138,8 @@ parse_line (grub_file_t file, http_data_t data, char *ptr, grub_size_t len)
       data->size_recv = 1;
       return GRUB_ERR_NONE;
     }
-  if (grub_memcmp (ptr, "Transfer-Encoding: chunked",
-		   sizeof ("Transfer-Encoding: chunked") - 1) == 0)
+  if (grub_strncasecmp (ptr, "Transfer-Encoding: chunked",
+		   grub_strlen ("Transfer-Encoding: chunked") ) == 0)
     {
       data->chunked = 1;
       return GRUB_ERR_NONE;
